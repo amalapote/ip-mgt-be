@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,7 +12,7 @@ return new class extends Migration
     {
         Schema::create('ip_management', function (Blueprint $table) {
             $table->id();
-            $table->string('ip_address', 15)->unique();
+            $table->string('ip_address', 255)->unique();
             $table->string('label', 255);
             $table->longText('comment');
             $table->timestamps();

@@ -9,61 +9,47 @@ use App\Models\{
 };
 use App\Http\Requests\IpManagementRequest;
 use App\Http\Resources\IpManagementResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
 class IpManagementController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(readonly protected IpManagement $ipManagement, readonly protected IpManagementHistory $ipManagementHistory)
     {
         //
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
+     *
+     * @return IpManagementResource
      */
-    public function create()
+    public function index(): IpManagementResource|AnonymousResourceCollection
     {
-        //
+        return IpManagementResource::collection($this->ipManagement->all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(IpManagementRequest $request)
+    public function store(IpManagementRequest $request): IpManagementResource
     {
-        //
+        return new IpManagementResource($this->ipManagement->createIpAddress($request->validated()));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(IpManagement $ip): IpManagementResource
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return new IpManagementResource($this->ipManagement->getIpAddressById($ip));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(IpManagementRequest $request, string $id)
+    public function update(IpManagementRequest $request, IpManagement $ip): IpManagementResource
     {
-        //
+        return new IpManagementResource($this->ipManagement->updateIpAddress($request, $ip));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ValidateIP;
 
 class IpManagementRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class IpManagementRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,17 @@ class IpManagementRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        return match ($this->method()) {
+            'POST' => [
+                'ip_address' => 'required|string|ip|unique:ip_management,ip_address',
+                'label' => 'required|string|max:255',
+                'comment' => 'required|string|max:500',
+            ],
+            'PUT', 'PATCH' => [
+                'label' => 'required|string|max:255',
+                'comment' => 'required|string|max:500',
+            ],
+            default => [],
+        };
     }
 }
