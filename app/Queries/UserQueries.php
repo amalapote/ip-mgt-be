@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\RefreshTokenRepository;
 use Laravel\Passport\TokenRepository;
-
-class UserQueries extends Authenticatable
+use OwenIt\Auditing\Contracts\Auditable;
+class UserQueries extends Authenticatable implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     /**
      * Saving users to the database.
      *

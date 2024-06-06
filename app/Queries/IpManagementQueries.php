@@ -2,10 +2,23 @@
 
 namespace App\Queries;
 
-use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
-class IpManagementQueries extends Model
+use OwenIt\Auditing\Contracts\Auditable;
+class IpManagementQueries extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
+    /**
+     * Attributes to include in the Audit.
+     *
+     * @var array
+     */
+    protected $auditInclude = [
+        'ip_address',
+        'label',
+        'comment'
+    ];
+
     /**
      * Get all IP addresses.
      *
