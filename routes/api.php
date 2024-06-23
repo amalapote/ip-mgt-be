@@ -24,8 +24,18 @@ Route::prefix('v1')->group(function () {
             Route::put('/update/{ip}', [IpManagementController::class, 'update']);
             Route::get('/show/{ip}', [IpManagementController::class, 'show']);
             Route::get('/index', [IpManagementController::class, 'index']);
+            Route::get('/index/audit', [IpManagementController::class, 'auditLog']);
             Route::delete('/destroy/{ip}', [IpManagementController::class, 'destroy']);
         });
+
+        Route::prefix('ip-management')->group(function () {
+            Route::post('/comment/store', [IpManagementController::class, 'store']);
+            Route::put('/comment/update/{ip}', [IpManagementController::class, 'update']);
+            Route::get('/comment/show/{ip}', [IpManagementController::class, 'show']);
+            Route::get('/comment/index', [IpManagementController::class, 'index']);
+            Route::delete('/comment/destroy/{ip}', [IpManagementController::class, 'destroy']);
+        });
+
     });
 
 

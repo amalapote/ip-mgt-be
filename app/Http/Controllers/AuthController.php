@@ -6,7 +6,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\{
     User,
-    LoginHistory
 };
 use App\Http\Requests\{
     RegistrationRequest,

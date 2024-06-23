@@ -12,9 +12,11 @@ return new class extends Migration {
     {
         Schema::create('ip_management', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip_address', 255)->unique();
             $table->string('label', 255);
-            $table->longText('comment');
+            $table->longText('comment')->nullable();
             $table->timestamps();
         });
     }

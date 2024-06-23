@@ -23,6 +23,11 @@ class User extends UserQueries
         'password',
     ];
 
+    public function ipManagement(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(IpManagement::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

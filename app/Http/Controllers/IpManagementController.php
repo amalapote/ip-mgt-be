@@ -25,7 +25,7 @@ class IpManagementController extends Controller
      */
     public function index(): IpManagementResource|AnonymousResourceCollection
     {
-        return IpManagementResource::collection($this->ipManagement->all());
+        return IpManagementResource::collection($this->ipManagement->getAllIpAddresses());
     }
 
     /**
@@ -50,6 +50,16 @@ class IpManagementController extends Controller
     public function update(IpManagementRequest $request, IpManagement $ip): IpManagementResource
     {
         return new IpManagementResource($this->ipManagement->updateIpAddress($request, $ip));
+    }
+
+    /**
+     * Audit log for the IP Management.
+     *
+     * @return IpManagementResource
+     */
+    public function auditLog(): IpManagementResource
+    {
+        return new IpManagementResource($this->ipManagement->logs());
     }
 
 }

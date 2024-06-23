@@ -2,8 +2,12 @@
 
 namespace App\Queries;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use OwenIt\Auditing\Contracts\Auditable;
+use OwenIt\Auditing\Models\Audit;
+
 class IpManagementQueries extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
@@ -20,13 +24,13 @@ class IpManagementQueries extends Model implements Auditable
     ];
 
     /**
-     * Get all IP addresses.
+     * IP Management model.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getAllIpAddresses(): \Illuminate\Database\Eloquent\Collection
+    public function getAllIpAddresses(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        return $this->all();
+        return $this::with('user')->orderBy('id', 'desc')->paginate(10);
     }
 
     /**
@@ -35,9 +39,9 @@ class IpManagementQueries extends Model implements Auditable
      * @param int $id
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function getIpAddressById($ip): \Illuminate\Database\Eloquent\Model
+    public function getIpAddressById($ip)
     {
-        return $ip;
+        return $ip->with('user')->first();
     }
 
     /**
@@ -48,7 +52,9 @@ class IpManagementQueries extends Model implements Auditable
      */
     public function createIpAddress(array $data): \Illuminate\Database\Eloquent\Model
     {
-        return $this->create($data);
+        $user = Auth::user();
+
+        return $user->ipManagement()->create($data);
     }
 
     /**
@@ -74,6 +80,14 @@ class IpManagementQueries extends Model implements Auditable
     public function deleteIpAddress(int $id): bool
     {
         return $this->destroy($id);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function logs()
+    {
+        return Audit::with('user')->paginate();
     }
 
 }

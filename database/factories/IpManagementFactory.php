@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class IpManagementFactory extends Factory
 {
+    protected $model = \App\Models\IpManagement::class;
+
     /**
      * Define the model's default state.
      *
@@ -17,7 +19,9 @@ class IpManagementFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'ip_address' => $this->faker->ipv4,
+            'label' => $this->faker->word,
+            'comment' => $this->faker->sentence,
         ];
     }
 }

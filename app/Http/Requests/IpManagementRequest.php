@@ -30,7 +30,6 @@ class IpManagementRequest extends FormRequest
             ],
             'PUT', 'PATCH' => [
                 'label' => 'required|string|max:255',
-                'comment' => 'required|string|max:500',
             ],
             default => [],
         };
