@@ -58,8 +58,15 @@ class AuthController extends Controller
                     'message' => Lang::get('auth.failed'),
                 ], Response::HTTP_UNAUTHORIZED);
             }
+            $test = $this->user->generateToken($request);
 
-            return response()->json($this->user->generateToken($request), Response::HTTP_OK);
+            if(!isset($test->access_token)) {
+                $httpStatus = Response::HTTP_BAD_GATEWAY;
+            } else {
+                $httpStatus = Response::HTTP_OK;
+            }
+
+            return response()->json($this->user->generateToken($request), $httpStatus);
 
         } catch (\Exception $e) {
 
